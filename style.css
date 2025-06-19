@@ -3,46 +3,73 @@ body {
     margin: 0;
     background-color: #000;
     color: #fff;
-    overflow: hidden;
 }
 
-.main{
+.main {
     display: flex;
-    height: 100vh ;
-    padding: 0.5rem  ;
+    height: calc(100vh - 82px); 
+    padding: 0.5rem;
+    overflow: hidden; 
+    position: relative;
 }
 
-.sidebar{
+.sidebar {
     background-color: black;
     width: 340px;
+    min-width: 340px;
     border-radius: 1rem;
     margin-right: 0.75rem;
+    overflow-y: auto; 
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #535353 #121212;
 }
 
 .main-content {
     background-color: #121212;
     flex: 1;
     border-radius: 1rem;
-    overflow: auto;
-    padding: 0 1.5rem 0 1.5rem;
-} 
+    overflow-y: auto; 
+    padding: 0 1.5rem;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #535353 #121212;
+}
 
-.music-player{
+.music-player {
     background-color: black;
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 72px;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 100;
 }
 
-a{
-    text-decoration: none;
-    color: white;
 
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-.nav{
+::-webkit-scrollbar-track {
+    background: #121212;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #535353;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #686868;
+}
+
+
+.nav {
     background-color: #121212;
     border-radius: 1rem;
     display: flex;
@@ -56,7 +83,10 @@ a{
     line-height: 2.5rem;
     opacity: 0.7;
     padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
 }
+
 .nav-option:hover {
     opacity: 1;
 }
@@ -73,15 +103,21 @@ a{
 .library {
     background-color: #121212;
     border-radius: 1rem;
-    height: 100%;
+    height: calc(100% - 110px); 
     margin-top: 0.5rem;
     padding: 0.5rem 0.75rem;
+    overflow-y: auto; 
 }
 
 .options {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    background-color: #121212;
+    z-index: 1;
+    padding: 0.5rem 0;
 }
 
 .lib-option img {
@@ -100,7 +136,7 @@ a{
 }
 
 .icons i:hover {
-    opacity: 1;  
+    opacity: 1;
 }
 
 .box {
@@ -130,12 +166,14 @@ a{
     margin-top: 0.5rem;
     height: 2rem;
     width: fit-content;
+    cursor: pointer;
 }
 
 .dark-badge {
     background-color: #000;
     color: #fff;
 }
+
 .sticky-nav {
     position: sticky;
     top: 0;
@@ -143,9 +181,8 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0;
     z-index: 10;
-
 }
 
 .sticky-nav-icons {
@@ -160,12 +197,7 @@ a{
 
 .nav-item {
     margin-right: 1rem;
-}
-
-@media (max-width: 1000px){
-    .hide{
-        display: none;
-    }
+    cursor: pointer;
 }
 
 .card {
@@ -173,27 +205,45 @@ a{
     width: 150px;
     border-radius: 0.5rem;
     padding: 1rem;
-    margin-left: 1.5rem;
-    margin-top: 1rem;
+    margin: 1rem;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: #2a2a2a;
+    transform: scale(1.05);
 }
 
 .cards-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .card img {
     width: 100%;
     border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 }
 
 .card-title {
     font-weight: 600;
+    margin: 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-info {
     font-size: 0.85rem;
     opacity: 0.8;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .footer {
@@ -210,35 +260,76 @@ a{
     opacity: 0.4;
 }
 
-.music-player {
+.album {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    width: 25%;
+    min-width: 180px;
 }
 
-.album {
-    width: 25%;
+.album img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.title {
+    font-size: 0.9rem;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.artist {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.album .icons {
+    display: flex;
+    gap: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 .player {
     width: 50%;
-}
-
-.controls {
-    width: 25%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .player-control {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .player-control-icon {
     height: 1rem;
-    margin-right: 1.75rem;
+    margin: 0 0.875rem;
     opacity: 0.75;
+    cursor: pointer;
 }
+
 .player-control-icon:hover {
     opacity: 1;
 }
@@ -247,6 +338,7 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .progress-bar {
@@ -254,6 +346,7 @@ a{
     appearance: none;
     background-color: transparent;
     cursor: pointer;
+    margin: 0 0.5rem;
 }
 
 .progress-bar::-webkit-slider-runnable-track {
@@ -269,41 +362,136 @@ a{
     background-color: #1bd760;
     border-radius: 50%;
     margin-top: -6px;
-
 }
 
-.album {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #111;
-    padding: 10px;
-    border-radius: 8px;
-    width: fit-content;
-}
-.album img {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-}
-.info {
-    display: flex;
-    flex-direction: column;
-}
-.title {
-    font-size: 0.9rem;
-    color: white;
-    align-self: stretch;
-}
-.artist {
-    font-size: 0.85rem;
+.curr-time, .tot-time {
+    font-size: 0.75rem;
     opacity: 0.7;
 }
-.icons {
+
+.controls {
+    width: 25%;
     display: flex;
-    gap: 10px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
+    justify-content: flex-end;
+    padding-right: 1rem;
 }
+
+/* Responsive Styles */
+@media (max-width: 1000px) {
+    .hide {
+        display: none;
+    }
     
+    .sidebar {
+        width: 80px;
+        min-width: 80px;
+        padding: 0.5rem;
+    }
+    
+    .nav-option a, .lib-option a {
+        display: none;
+    }
+    
+    .lib-box {
+        display: none;
+    }
+    
+    .library {
+        padding: 0.5rem;
+    }
+    
+    .card {
+        width: 120px;
+        padding: 0.75rem;
+        margin: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        height: calc(100vh - 72px);
+        padding: 0;
+    }
+    
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        margin-right: 0;
+        border-radius: 0;
+        order: 2;
+        height: auto;
+    }
+    
+    .main-content {
+        order: 1;
+        border-radius: 0;
+        padding-bottom: 0;
+    }
+    
+    .nav {
+        flex-direction: row;
+        height: auto;
+        justify-content: space-around;
+        padding: 0.5rem;
+    }
+    
+    .nav-option {
+        padding: 0.5rem;
+    }
+    
+    .library {
+        display: none;
+    }
+    
+    .cards-container {
+        justify-content: center;
+    }
+    
+    .card {
+        width: 140px;
+    }
+    
+    .music-player {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .album {
+        min-width: 120px;
+    }
+    
+    .player {
+        display: none;
+    }
+    
+    .controls {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: calc(50% - 1rem);
+        margin: 0.5rem;
+    }
+    
+    .album {
+        width: auto;
+    }
+    
+    .album .icons {
+        display: none;
+    }
+    
+    .sticky-nav-options .nav-item {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .main-content {
+        padding: 0 0.5rem;
+    }
+}
